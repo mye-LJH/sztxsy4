@@ -8,6 +8,8 @@ function dPSNR = psnr(ImageA, ImageB)
     M = size(ImageA, 1);
     N = size(ImageA, 2);
     d = 0;
+    ImageA = double(ImageA);  % 转换为双精度
+    ImageB = double(ImageB);  % 转换为双精度
     for i = 1:M
         for j = 1:N
             d = d + (ImageA(i, j) - ImageB(i, j)).^2;  % 计算误差平方和
@@ -16,7 +18,7 @@ function dPSNR = psnr(ImageA, ImageB)
     if d == 0
         dPSNR = Inf;  % 避免对零取对数
     else
-        dPSNR = -10 * log10(d / (255 * 255 * M * N));  % 计算PSNR值
+        dPSNR = 10 * log10((255^2 * M * N) / d);  % 计算PSNR值，调整公式以避免负值
     end
     return;
 end
